@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 8pt spacing helpers */
+:root {
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+}
+
+/* better focus outline */
+:focus-visible {
+  outline: 2px solid hsl(221 83% 53%);
+  outline-offset: 2px;
+}
+
+html, body, #root { height: 100%; }
+body { @apply bg-white text-slate-900; }
+.dark body { @apply bg-slate-950 text-slate-50; }
