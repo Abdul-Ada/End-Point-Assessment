@@ -10,4 +10,17 @@ export interface SmartGoal {
   id: string; user_id: string; title: string; description?: string; start_date: string;
   target_date: string; measure: string; relevant_ksbs: string[]; status: string; created_at: string
 }
+
 export interface Comment { id: string; entry_id: string; coach_id: string | null; body: string; created_at: string }
+
+export interface Event {
+  id: string;
+  user_id: string;
+  created_at: string;
+  date: string;
+  title: string;
+  type: 'Deadline' | 'Milestone' | 'Meeting' | 'Reminder';
+  description: string | null;
+}
+
+// ... keep the other existing interfaces (Profile, DiaryEntry, etc.)
