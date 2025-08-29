@@ -1,0 +1,32 @@
+{
+  "customers": [
+    {
+      "id": "3b7c7b4b-8a7e-4b7a-9b0a-0e1b0e1b0e1b",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "phone": "123-456-7890"
+    },
+    {
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "phone": "098-765-4321"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "f0e9d8c7-b6a5-4f3e-2d1c-0b9a8f7e6d5c",
+      "customer_id": "3b7c7b4b-8a7e-4b7a-9b0a-0e1b0e1b0e1b",
+      "service": "Initial Consultation",
+      "date": "2025-09-05T10:00:00Z",
+      "status": "Confirmed"
+    },
+    {
+      "id": "c1d2e3f4-a5b6-7890-fedc-ba9876543210",
+      "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "service": "Project Scoping",
+      "date": "2025-09-08T14:30:00Z",
+      "status": "Pending"
+    }
+  ]
+}
