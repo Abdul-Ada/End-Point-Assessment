@@ -1,0 +1,3 @@
+-- Replace UUIDs with real IDs after creating users
+-- Example: link an apprentice to a coach
+-- insert into public.coach_assignments (apprentice_id, coach_id) values ('{APPRENTICE_UUID}','{COACH_UUID}');
