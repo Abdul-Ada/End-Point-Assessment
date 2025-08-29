@@ -9,7 +9,6 @@ import EntryView from './pages/EntryView'
 import Goals from './pages/Goals'
 import Coach from './pages/Coach'
 import Calendar from './pages/Calendar' // Import the new Calendar page
-import { supabase } from './lib/supabaseClient'
 import './index.css'
 
 // This component protects routes that require a user to be logged in.
@@ -59,3 +58,4 @@ createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </React.StrictMode>
 )
+
