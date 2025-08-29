@@ -1,38 +1,75 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
-import type { Profile } from '../types'
-import { LayoutDashboard, NotebookPen, Goal, ShieldCheck } from 'lucide-react'
+import { cn } from './ui/cn'
+import { Profile } from '../types'
+import {
+  LayoutDashboard,
+  User,
+  CheckCircle2,
+  Flag,
+  CalendarDays, // 1. Import the new icon
+} from 'lucide-react'
 
-function NavItem({ to, label, icon: Icon }: { to: string, label: string, icon: any }) {
-  const { pathname } = useLocation()
-  const active = pathname === to
-  return (
-    <Link to={to}
-      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-900 ${active ? 'bg-slate-100 dark:bg-slate-900' : ''}`}>
-      <Icon size={16} />
-      {label}
-    </Link>
-  )
-}
+// Array of navigation links for apprentices
+const apprenticeLinks = [
+  { href: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/goals', label: 'Goals', icon: Flag },
+  { href: '/calendar', label: 'Calendar', icon: CalendarDays }, // 2. Add the new calendar link object
+]
+
+// Array of navigation links for coaches
+const coachLinks = [
+  { href: '/coach', label: 'Coach View', icon: User },
+  { href: '/goals', label: 'My Goals', icon: Flag },
+]
 
 export default function Sidebar() {
-  const [me, setMe] = useState<Profile | null>(null)
+  const { pathname } = useLocation()
+  const [profile, setProfile] = useState<Profile | null>(null)
+
   useEffect(() => {
-    (async () => {
+    async function getProfile() {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-      setMe(data as Profile)
-    })()
+      if (user) {
+        const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single()
+        setProfile(data as Profile)
+      }
+    }
+    getProfile()
   }, [])
 
+  const links = profile?.role === 'COACH' ? coachLinks : apprenticeLinks
+
   return (
-    <aside className="hidden w-64 flex-col gap-1 border-r border-border/60 p-3 md:flex">
-      <NavItem to="/" label="Dashboard" icon={LayoutDashboard} />
-      <NavItem to="/entries/new" label="New Entry" icon={NotebookPen} />
-      <NavItem to="/goals" label="Goals" icon={Goal} />
-      {me?.role === 'COACH' && <NavItem to="/coach" label="Coach" icon={ShieldCheck} />}
+    <aside className="hidden w-56 flex-col gap-1 md:flex">
+      <h2 className="px-4 text-lg font-semibold tracking-tight">Menu</h2>
+      {links.map(link => (
+        <Link
+          key={link.href}
+          to={link.href}
+          className={cn(
+            'flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100',
+            pathname === link.href && 'bg-slate-200 text-slate-900'
+          )}
+        >
+          <link.icon className="h-4 w-4" />
+          {link.label}
+        </Link>
+      ))}
+      {/* Conditionally render the Coach link if the user has the COACH role */}
+      {profile?.role === 'COACH' && (
+         <Link
+          to="/coach"
+          className={cn(
+            'flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100',
+            pathname === '/coach' && 'bg-slate-200 text-slate-900'
+          )}
+        >
+          <User className="h-4 w-4" />
+          Coach View
+        </Link>
+      )}
     </aside>
   )
 }
